@@ -1,6 +1,6 @@
 // GAME VARIABLES
 
-let floorY = 22;
+
 
 let jumping = false;
 let stopped = false;
@@ -8,7 +8,18 @@ let stopped = false;
 let velY = 0;
 let impulse = 900;
 
+//Floor
+let floorY = 22;
+let floorX = 0;
+let velEscene = 1280/3;
+let gameVel = 1;
+
+//Dino
 let dinoPosY = floorY
+
+// Game Settings
+let score = 0
+
 
 let time = new Date();
 let deltaTime = 0;
@@ -50,7 +61,7 @@ function HandleKeyDown(event){
 function jump(){
     if(dinoPosY === floorY){
         console.log('Saltando')
-        saltando = true;
+        jumping = true;
         velY = impulse;
         dino.classList.remove('dino-running')
     }
@@ -58,6 +69,7 @@ function jump(){
 
 function loop(){
     deltaTime = (new Date() - time) / 1000;
+    
     time = new Date();
     update();
     requestAnimationFrame(loop);
@@ -67,11 +79,39 @@ function update(){
     if(stopped) return;
     moveDino()
     moveFloor()
-    decideCreateObstacle()
-    decideCreateClouds()
-    moveObstacles()
-    moveClouds()
-    detectCollision()
+    // decideCreateObstacle()
+    // decideCreateClouds()
+    // moveObstacles()
+    // moveClouds()
+    // detectCollision()
 
     velY -= gravity * deltaTime;
+}
+
+function moveDino(){
+    dinoPosY += velY * deltaTime;
+    // console.log('dinoPosY: ' + dinoPosY);
+    if(dinoPosY < floorY){
+        touchFloor();
+    }
+    dino.style.bottom = dinoPosY+'px'
+}
+
+function touchFloor(){
+    dinoPosY = floorY;
+    velY = 0;
+    
+    if(jumping){
+        dino.classList.add('dino-running');
+    }
+    jumping = false;
+}
+
+function moveFloor(){
+    floorX += calculateMovement();
+    floor.style.left = -(floorX % container.clientWidth) + 'px';
+}
+
+function calculateMovement(){
+    return velEscene * deltaTime * gameVel
 }

@@ -14,6 +14,7 @@ body{
     margin: 30px auto;
     background: linear-gradient(#f48c1d, #cbb9ae);
     position: relative;
+    overflow: hidden ;
 }
 .dino{
     border: 2px solid white;
@@ -42,7 +43,7 @@ body{
 }
 .floor{
     border: 2px solid white;
-    width: 1280px;
+    width: 200%;
     height: 42px;
 
     position: absolute;
